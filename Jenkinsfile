@@ -20,10 +20,7 @@ pipeline {
 // artifactDaysToKeepStr - Days to keep artifacts
 // artifactNumToKeepStr - Max # of builds to keep with artifacts	  
 }	
-  environment {
-    SONAR_HOME = "${tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}"
-    DOCKER_TAG = DockerTag()	  
-  }  
+  
   stages {
     stage('Artifactory_Configuration') {
       steps {
