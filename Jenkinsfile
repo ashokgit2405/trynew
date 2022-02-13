@@ -9,8 +9,8 @@ def DockerTag() {
 pipeline {
   agent { label 'master' }
     tools {
-      maven 'Maven'
-      jdk 'JAVA_HOME'
+      maven 'Maven 3.5.4'
+      jdk 'jdk8'
     }
   options { 
     timestamps () 
