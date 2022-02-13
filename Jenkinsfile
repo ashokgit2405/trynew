@@ -1,5 +1,5 @@
 def mvn
-def server = Artifactory.server 'jfrog_demo'
+def server = Artifactory.server 'jfrog-demo'
 def rtMaven = Artifactory.newMavenBuild()
 def buildInfo
 def DockerTag() {
