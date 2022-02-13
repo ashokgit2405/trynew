@@ -48,42 +48,5 @@ pipeline {
 		  	sh 'mv target/*.war target/helloworld.war'
         }			                      
       }
-    stage('SonarQube_Analysis') {
-      steps {
-	    script {
-          scannerHome = tool 'sonar-scanner'
-        }
-        withSonarQubeEnv('sonar') {
-      	  sh """${scannerHome}/bin/sonar-scanner"""
-        }
-      }	
-    }	
-	stage('Quality_Gate') {
-	  steps {
-	    timeout(time: 3, unit: 'MINUTES') {
-		  waitForQualityGate abortPipeline: true
-        }
-      }
-    }
-  stage('Build Docker Image'){
-    steps{
-      sh 'docker build -t dileep95/ansibledeploy:${DOCKER_TAG} .'
-    }
-  }	  	 
-  stage('Docker Container'){
-    steps{
-      withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
-	  sh 'docker login -u ${docker_user} -p ${docker_pass}'
-      	  sh 'docker push dileep95/ansibledeploy:${DOCKER_TAG}'
-	  }
-    }
- }
-    stage('Ansible Playbook'){
-      steps {
-       //ansiblePlaybook credentialsId: 'ans-server', inventory: 'inventory', playbook: 'ansibleplay.yml', tags: 'stop_container,delete_container'
-       // Above command used to run the playbook with specified tags mentioned in the tags section.	
-	 ansiblePlaybook credentialsId: 'ans-server', inventory: 'inventory', playbook: 'ansibleplay.yml'     
-        }
-      }	  	  
   }
 }  
